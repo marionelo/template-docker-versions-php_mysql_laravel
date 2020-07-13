@@ -4,7 +4,7 @@
 Este proyecto esta hecho para poder hacer un template de PHP con laravel con las versiones que necesitemos usar con una instrucción simple
 
 ```
-    $ sh inicio.sh php=version_php laravel=version_laravel user=`whoami`
+    $ bash inicio.sh 
 ```
 
 La instrucción anterior nos creará la estructura de carpetas, archivos, nombres y versiones indicados
@@ -47,27 +47,12 @@ Con el cual pueden ver en tiempo real la instalación que esta ocurriendo dentro
 
 Una vez termianda la instalación nos queda poder revisar en el navegador que todo esta corriendo de manera correcta
 ```
-    http://localhost:8080
+    http://localhost:puerto_para_http
 ```
 
 ### Acomodando git
 
 Si todo corrió correctamente, nos queda ejecutar una última instrucción para dejar nuestro repositio de git correcto y listo para github
 ```
-    $ sh fin.sh ser=`whoami`
-```
-
-
-### Casos especiales
-
-Para los casos especiales, como el hecho de ya tener un proyecto creado de laravel, se ejecutaran las siguientes instrucciones:
-```
-    $ sh inicio.sh php=version_php laravel=version_laravel user=`whoami`
-    $ sh fin.sh ser=`whoami`
-
-    Copiar el proyecto actual de laravel dentro de la carpeta proyecto y que el mismo se llame proyecto, teniendo así una carpeta anidada con el mismo nombre
-
-    proyecto/proyecto
-
-    $ docker-compose up --build -d
+    $ bash fin.sh
 ```
