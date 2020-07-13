@@ -3,6 +3,8 @@
 VERSION=$1
 
 
+cd /home/project
+
 echo "Solo se instala el proyuecto desde 0\n\n\n"
 composer create-project --prefer-dist laravel/laravel "" "$VERSION"
 
