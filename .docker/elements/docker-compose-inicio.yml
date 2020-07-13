@@ -1,0 +1,64 @@
+version: '3'
+
+services:
+    nginx:
+        image: nginx:stable-alpine
+        container_name: "${PROJECT_NAME}_nginx"
+        restart: always
+        ports:
+            - "${HTTP_PORT}:80"
+        volumes:
+            - $PWD/html:/var/www/html
+            - $PWD/.docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+        links:
+            - php
+        networks:
+            - LEMP
+        restart: always
+
+
+    php:
+        build: $PWD/.docker/php
+        container_name: "${PROJECT_NAME}_php"
+        restart: always
+        volumes:
+            - $PWD/html:/var/www/html
+        expose: 
+            - "9000"       
+        networks:
+            - LEMP
+        depends_on: 
+            - laravel-composer
+            - db
+        restart: always
+
+
+    laravel-composer: 
+        build: $PWD/.docker/composer
+        container_name: "${PROJECT_NAME}_composer"
+        restart: always
+        command: bash -c "sh /to_get_laravel.sh __laravel_version__"
+        volumes:
+            - ./html:/home/__myuser__
+        networks:
+            - LEMP
+
+    
+    db:
+        image: mysql:__mysql_version__
+        container_name: "${PROJECT_NAME}_db"
+        command: --default-authentication-plugin=mysql_native_password
+        restart: always
+        environment:
+            MYSQL_ROOT_PASSWORD: "${DB_ROOT_PASS}"
+            MYSQL_DATABASE: "${DB_NAME}"
+        ports:
+            - "${DB_PORT_EXT}:3306"
+        networks:
+            - LEMP
+        volumes:
+            - $PWD/.docker/mysql:/var/lib/mysql
+        restart: always
+
+networks:
+    LEMP:

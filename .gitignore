@@ -1,0 +1,6 @@
+/html
+/php/Dockerfile
+/composer/Dockerfile
+/mysql
+docker-compose.yml
+.env
