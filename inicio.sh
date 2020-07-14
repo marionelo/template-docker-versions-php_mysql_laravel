@@ -123,13 +123,12 @@ echo ""
 
 
 #Es hora de poner las varaibles en accion
-sed -e "s/project_name/$dockerName/" \
+sed -e "s/name_project/$dockerName/" \
 -e "s/port_http/$portHTTP/" \
 -e "s/port_ssl/$portSSL/" \
 -e "s/port_mysql/$portDB/" \
 -e "s/pass_user_root_mysql/$dbPassROOT/" \
--e "s/Database_name/$dbName/" \
-".env.example" > .env
+-e "s/Database_name/$dbName/" ".env.example" > .env
 
 
 echo -e "Se ha creado al archivo .env !!!\n"
@@ -223,18 +222,14 @@ rm docker-compose_pre.yml
 rm docker-compose_pre_final.yml
 rm fin1.sh
 
-#copia del .env para docker
-cp .env.example .env
-
-
 #
 # En caso de existir se elimina el .git 
 #
-# DIR=".git"
-# if [ -d "$DIR" ]; then
-#     rm -rf .git
-# fi
+DIR=".git"
+if [ -d "$DIR" ]; then
+    rm -rf .git
+fi
 
 
-# #Se inicia proyecto git vacio
-# git init
+#Se inicia proyecto git vacio
+git init
