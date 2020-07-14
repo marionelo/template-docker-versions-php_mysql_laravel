@@ -6,6 +6,8 @@ RUN  apt-get update -y \
     &&  apt-get install -y unzip \
 	&&  apt-get install -y dbconfig-common \
 	&&  apt-get install -y libcurl4-openssl-dev \
+	&&  apt-get install -y nodejs \
+	&&  apt-get install -y npm \
 	&& docker-php-ext-install pdo_mysql 
 
 
