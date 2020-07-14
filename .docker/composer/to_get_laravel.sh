@@ -3,13 +3,11 @@
 VERSION=$1
 
 
-cd /home/project
-
 echo "Solo se instala el proyuecto desde 0\n\n\n"
-composer create-project --prefer-dist laravel/laravel "" "$VERSION"
+composer create-project --prefer-dist laravel/laravel "/home/project" "$VERSION"
 
 
 #CAMBIO DE PERMISOS DENTRO DE LAS CARPETAS PARA PODER HACER LO QUE NECESITEMOS
-chmod -R 777 ./storage
-chmod -R 777 ./bootstrap
+chmod -R 777 /home/project/storage
+chmod -R 777 /home/project/bootstrap
 tail -f /dev/null
