@@ -19,6 +19,7 @@ echo "html/Homestead.yaml" >> .gitignore
 echo "html/npm-debug.log" >> .gitignore
 echo "html/yarn-error.log" >> .gitignore
 echo ".docker/elements" >> .gitignore
+echo ".docker/mysql" >> .gitignore
 echo ".env" >> .gitignore
 echo "inicio.sh" >> .gitignore
 echo "fin.sh" >> .gitignore

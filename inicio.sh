@@ -1,5 +1,11 @@
 #!/bin/bash
 
+echo -e "############################################"
+echo -e "#                                          #"
+echo -e "#          VERSIONES DE LENGUAJES          #"
+echo -e "#                                          #"
+echo -e "############################################\n"
+
 #
 #   RECEPCION DE VARIABLES POR MEDIO DE AL TERMIMAL
 #
@@ -59,16 +65,77 @@ fi
 echo -e "La version para MySQL es: $mysqlFinalVersion\n\n"
 
 
+echo -e "############################################"
+echo -e "#                                          #"
+echo -e "#           VARIABLES DE ENTORNO           #"
+echo -e "#                                          #"
+echo -e "############################################\n"
+
+read -p "Nombre del proyecto docker: " dockerName
+
+echo ""
+
+while true; do
+    read -p "Puerto HTTP (entre 3000 - 65000): " portHTTP
+
+    result=$( sudo lsof -i -P -n | grep LISTEN | grep $portHTTP )
+
+    if [ "$result" ]; then
+        echo -e "El puerto \e[31m$portHTTP \e[39mesta ocupado \n"
+    else 
+        echo -e "\e[39mPuerto \e[32m$portHTTP \e[39masignado \n"
+        break;
+    fi  
+done
+
+while true; do
+    read -p "Puerto SSL (default 443): " portSSL
+
+    result=$( sudo lsof -i -P -n | grep LISTEN | grep $portSSL )
+
+    if [ "$result" ]; then
+        echo -e "El puerto \e[31m$portSSL \e[39mesta ocupado \n"
+    else 
+        echo -e "\e[39mPuerto \e[32m$portSSL \e[39masignado \n"
+        break;
+    fi  
+done
+
+
+while true; do
+    read -p "Puerto Database (default 3306): " portDB
+
+    result=$( sudo lsof -i -P -n | grep LISTEN | grep $portDB )
+
+    if [ "$result" ]; then
+        echo -e "El puerto \e[31m$portDB \e[39mesta ocupado \n"
+    else 
+        echo -e "\e[39mPuerto \e[32m$portDB \e[39masignado \n"
+        break;
+    fi  
+done
+
+
+read -p "Password DB user ROOT: " dbPassROOT
+echo ""
+read -p "Nombre de la base de datos: " dbName
+echo ""
+
+
+#Es hora de poner las varaibles en accion
+sed -e "s/project_name/$dockerName/" \
+-e "s/port_http/$portHTTP/" \
+-e "s/port_ssl/$portSSL/" \
+-e "s/port_mysql/$portDB/" \
+-e "s/pass_user_root_mysql/$dbPassROOT/" \
+-e "s/Database_name/$dbName/" \
+".env.example" > .env
+
+
+echo -e "Se ha creado al archivo .env !!!\n"
+
 #whoami
 whoami="project"
-
-#
-# En caso de existir se elimina el .git 
-#
-DIR=".git"
-if [ -d "$DIR" ]; then
-    rm -rf .git
-fi
 
 #
 # creación de carpeta del proyecto
@@ -80,7 +147,6 @@ if [ -d "$DIRP" ]; then
 fi
 mkdir $DIRP
 
-
 #
 # creación de carpeta del DB
 # =====     db    ======
@@ -90,6 +156,30 @@ if [ -d "$DIRDB" ]; then
     rm -rf $DIRDB
 fi
 mkdir $DIRDB
+touch $DIRDB/.empty
+
+#
+# creación de carpeta del DB
+# =====     db    ======
+#
+DIRDOCS="docs/"
+if [ -d "$DIRDOCS" ]; then
+    rm -rf $DIRDOCS
+fi
+mkdir $DIRDOCS
+touch $DIRDOCS/.empty
+
+#
+# creación de carpeta del DB
+# =====     db    ======
+#
+DIRSC="scripts/"
+if [ -d "$DIRSC" ]; then
+    rm -rf $DIRSC
+fi
+mkdir $DIRSC
+touch $DIRSC/.empty
+
 
 
 
@@ -103,6 +193,7 @@ if [ -d "$DIRP" ]; then
     rm -rf $DIRPHP
 fi
 mkdir $DIRPHP
+
 
 #
 #   CREATE DIRECTORY TO MYSQL SERVICE
@@ -136,4 +227,14 @@ rm fin1.sh
 cp .env.example .env
 
 
-git init
+#
+# En caso de existir se elimina el .git 
+#
+# DIR=".git"
+# if [ -d "$DIR" ]; then
+#     rm -rf .git
+# fi
+
+
+# #Se inicia proyecto git vacio
+# git init
