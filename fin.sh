@@ -1,8 +1,11 @@
 #!/bin/bash
 
 # Copiado de archivo docker-compose-inicio.yml
-sed "s/__myuser__/__my_user__/" $PWD/.docker/elements/docker-compose-final.yml > docker-compose.yml
-sed "s/__mysqlversion__/__mysql_version__/" $PWD/.docker/elements/docker-compose-final.yml > docker-compose.yml
+# sed "s/__myuser__/__my_user__/" $PWD/.docker/elements/docker-compose-final.yml > docker-compose.yml
+# sed "s/__mysqlversion__/__mysql_version__/" $PWD/.docker/elements/docker-compose-final.yml > docker-compose.yml
+
+sed -e "s/__myuser__/__my_user__/" \
+-e "s/__mysqlversion__/__mysql_version__/" $PWD/.docker/elements/docker-compose-final.yml > docker-compose.yml
 
 
 #falta poder agregar las exepciones del .gitignore

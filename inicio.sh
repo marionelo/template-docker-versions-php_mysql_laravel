@@ -207,15 +207,22 @@ mkdir $DIRPMSQL
 # Copiado de archivo docker-compose-inicio.yml
 sed "s/__laravel_version__/$versionFinalLaravel/" "$base_dir/elements/docker-compose-inicio.yml" > docker-compose_pre.yml
 sed "s/__mysql_version__/$mysqlFinalVersion/" docker-compose_pre.yml > docker-compose_pre_final.yml
+
 # Compiando la version que se necesita dentro del proyecto a generar 
 sed "s/__php_version__/$versionFinalPHP/" "$base_dir/elements/php_dockerfile.yml" > "$base_dir/php/Dockerfile"
+
 # Create Dockerfile to run correct composer
 sed "s/__myuser__/$whoami/" "$base_dir/elements/composer_dockerfile" > "$base_dir/composer/Dockerfile"
+
 # modify docker-compose.yml to add home user
 sed "s/__myuser__/$whoami/" docker-compose_pre_final.yml > docker-compose.yml
+
 #Modificaciones para el archivo de fin
-sed "s/__my_user__/$whoami/" fin.sh > fin1.sh
-sed "s/__mysql_version__/$mysqlFinalVersion/" fin1.sh > final.sh
+sed -e "s/__my_user__/$whoami/" \
+-e "s/__mysql_version__/$mysqlFinalVersion/" fin.sh > final.sh
+
+#sed "s/__my_user__/$whoami/" fin.sh > fin1.sh
+#sed "s/__mysql_version__/$mysqlFinalVersion/" fin1.sh > final.sh
 
 
 rm docker-compose_pre.yml
