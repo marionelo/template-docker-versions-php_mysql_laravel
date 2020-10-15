@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #verificamos si la carpeta de vendor existe si no se instala con composer
-cd /home/project
+cd /home/project/proyecto
 
 DIR="vendor"
 if [ -d "$DIR" ]; then #el directorio exists
