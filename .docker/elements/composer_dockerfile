@@ -9,4 +9,4 @@ USER __myuser__
 WORKDIR /home/__myuser__
 
 COPY script.sh /home/project/script.sh
-COPY to_get_laravel.sh /home/project/to_get_laravel.sh
+# COPY to_get_laravel.sh /home/project/to_get_laravel.sh
