@@ -242,9 +242,9 @@ fi
 git init
 
 # Instrucciones para poder ontener el proyecto por primera vez
-echo "Para poder obtener el proyecto primero debes entrar a: \n\n"
-echo "\t $ docker exec -ti $dockerName_composer bash \n"
-echo "\t $ cd proyecto \n"
-echo "\t $ composer create-project --prefer-dist laravel/laravel:^$laravelVersion ."
-echo "\t $ chmod -R 777 storage/ \n"
-echo "\t $ chmod -R 777 bootstrap/ \n"
+echo -e "Para poder obtener el proyecto primero debes entrar a: \n\n"
+echo -e "\t $ docker exec -ti $dockerName bash \n"
+echo -e "\t $ cd proyecto \n"
+echo -e "\t $ composer create-project --prefer-dist laravel/laravel:^$laravelVersion ."
+echo -e "\t $ chmod -R 777 storage/ \n"
+echo -e "\t $ chmod -R 777 bootstrap/ \n"

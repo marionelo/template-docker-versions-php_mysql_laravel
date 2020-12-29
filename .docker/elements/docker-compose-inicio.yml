@@ -37,7 +37,7 @@ services:
         build: $PWD/.docker/composer
         container_name: "${PROJECT_NAME}_composer"
         restart: always
-        # command: bash -c "sh /home/__myuser__/to_get_laravel.sh __laravel_version__"
+        command: bash -c "sh /home/__myuser__/to_get_laravel.sh __laravel_version__"
         volumes:
             - ./html:/home/__myuser__/proyecto
         networks:
