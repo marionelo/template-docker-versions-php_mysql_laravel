@@ -30,7 +30,6 @@ services:
         networks:
             - LEMP
         depends_on: 
-            - laravel-composer
             - db
     
     db:

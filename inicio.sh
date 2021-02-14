@@ -216,26 +216,22 @@ sed -e "s/__my_user__/$whoami/" \
 -e "s/__mysql_version__/$mariaDBFinalVersion/" fin.sh > final.sh
 
 
-#rm docker-compose_pre.yml
-#rm docker-compose_pre_final.yml
-#rm fin1.sh
-
 #
 # En caso de existir se elimina el .git 
 #
-#DIR=".git"
-#if [ -d "$DIR" ]; then
-#    rm -rf .git
-#fi
+DIR=".git"
+if [ -d "$DIR" ]; then
+    rm -rf .git
+fi
 
 
 #Se inicia proyecto git vacio
-#git init
+git init
 
 # Instrucciones para poder ontener el proyecto por primera vez
 echo "Para poder obtener el proyecto primero debes entrar a: \n\n"
 echo "\t $ docker-compose up -d --build "
-echo "\t $ docker exec -ti $dockerName_php bash \n"
+echo "\t $ docker exec -ti $dockerName _php bash \n"
 #echo "\t $ cd proyecto \n"
 echo "\t $ composer create-project --prefer-dist laravel/laravel:^$laravelVersion ."
 echo "\t $ chmod -R 777 storage/ \n"
