@@ -23,6 +23,7 @@ services:
         container_name: "${PROJECT_NAME}_php"
         restart: always
         volumes:
+            #- $PWD/.docker/php/files/php.ini-production:/usr/local/etc/php/php.ini
             - $PWD/html:/var/www/html
         expose: 
             - "9000"       
@@ -31,23 +32,11 @@ services:
         depends_on: 
             - laravel-composer
             - db
-
-
-    laravel-composer: 
-        build: $PWD/.docker/composer
-        container_name: "${PROJECT_NAME}_composer"
-        restart: always
-        command: bash -c "sh /home/__myuser__/to_get_laravel.sh __laravel_version__"
-        volumes:
-            - ./html:/home/__myuser__/proyecto
-        networks:
-            - LEMP
-
     
     db:
-        image: mysql:__mysql_version__
+        image: mariadb:__mysql_version__
         container_name: "${PROJECT_NAME}_db"
-        command: --default-authentication-plugin=mysql_native_password
+        #command: --default-authentication-plugin=mysql_native_password
         restart: always
         environment:
             MYSQL_ROOT_PASSWORD: "${DB_ROOT_PASS}"
@@ -58,6 +47,7 @@ services:
             - LEMP
         volumes:
             - $PWD/.docker/mysql:/var/lib/mysql
+        restart: always
 
 networks:
     LEMP:

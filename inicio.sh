@@ -49,20 +49,20 @@ echo -e "La version para Laravel es: $versionFinalLaravel\n\n"
 #
 # RECEPCION DE VERSION DE MYSQL
 #
-mysqlVersion=8
+mariadbVersion=10.5
 
 if [ !$version ]; then 
     while true; do
-        read -p "Desea tomar la versión de MySQL $mysqlVersion (y/n)? " yn
+        read -p "Desea tomar la versión de MariaDB $mariadbVersion (y/n)? " yn
         case $yn in
-            [Yy]* ) mysqlFinalVersion=$mysqlVersion; break;;
-            [Nn]* ) read -p "Especifique la version: " mysqlFinalVersion; break;;
+            [Yy]* ) mariaDBFinalVersion=$mariadbVersion; break;;
+            [Nn]* ) read -p "Especifique la version: " mariaDBFinalVersion; break;;
             *) echo "Por favor seleccione 'y' o 'n'";;
         esac
     done
 fi
 
-echo -e "La version para MySQL es: $mysqlFinalVersion\n\n"
+echo -e "La version para MariaDB es: $mariaDBFinalVersion\n\n"
 
 
 echo -e "############################################"
@@ -180,8 +180,6 @@ mkdir $DIRSC
 touch $DIRSC/.empty
 
 
-
-
 base_dir='.docker'
 
 #
@@ -205,46 +203,40 @@ mkdir $DIRPMSQL
 
 
 # Copiado de archivo docker-compose-inicio.yml
-sed "s/__laravel_version__/$versionFinalLaravel/" "$base_dir/elements/docker-compose-inicio.yml" > docker-compose_pre.yml
-sed "s/__mysql_version__/$mysqlFinalVersion/" docker-compose_pre.yml > docker-compose_pre_final.yml
+sed -e "s/__laravel_version__/$versionFinalLaravel/" \
+-e "s/__mysql_version__/$mariaDBFinalVersion/" \
+-e "s/__myuser__/$whoami/" \
+"$base_dir/elements/docker-compose-inicio.yml" > docker-compose.yml
 
 # Compiando la version que se necesita dentro del proyecto a generar 
 sed "s/__php_version__/$versionFinalPHP/" "$base_dir/elements/php_dockerfile.yml" > "$base_dir/php/Dockerfile"
 
-# Create Dockerfile to run correct composer
-sed "s/__myuser__/$whoami/" "$base_dir/elements/composer_dockerfile" > "$base_dir/composer/Dockerfile"
-
-# modify docker-compose.yml to add home user
-sed "s/__myuser__/$whoami/" docker-compose_pre_final.yml > docker-compose.yml
-
 #Modificaciones para el archivo de fin
 sed -e "s/__my_user__/$whoami/" \
--e "s/__mysql_version__/$mysqlFinalVersion/" fin.sh > final.sh
-
-#sed "s/__my_user__/$whoami/" fin.sh > fin1.sh
-#sed "s/__mysql_version__/$mysqlFinalVersion/" fin1.sh > final.sh
+-e "s/__mysql_version__/$mariaDBFinalVersion/" fin.sh > final.sh
 
 
-rm docker-compose_pre.yml
-rm docker-compose_pre_final.yml
-rm fin1.sh
+#rm docker-compose_pre.yml
+#rm docker-compose_pre_final.yml
+#rm fin1.sh
 
 #
 # En caso de existir se elimina el .git 
 #
-DIR=".git"
-if [ -d "$DIR" ]; then
-    rm -rf .git
-fi
+#DIR=".git"
+#if [ -d "$DIR" ]; then
+#    rm -rf .git
+#fi
 
 
 #Se inicia proyecto git vacio
-git init
+#git init
 
 # Instrucciones para poder ontener el proyecto por primera vez
-echo -e "Para poder obtener el proyecto primero debes entrar a: \n\n"
-echo -e "\t $ docker exec -ti $dockerName bash \n"
-echo -e "\t $ cd proyecto \n"
-echo -e "\t $ composer create-project --prefer-dist laravel/laravel:^$laravelVersion ."
-echo -e "\t $ chmod -R 777 storage/ \n"
-echo -e "\t $ chmod -R 777 bootstrap/ \n"
+echo "Para poder obtener el proyecto primero debes entrar a: \n\n"
+echo "\t $ docker-compose up -d --build "
+echo "\t $ docker exec -ti $dockerName_php bash \n"
+#echo "\t $ cd proyecto \n"
+echo "\t $ composer create-project --prefer-dist laravel/laravel:^$laravelVersion ."
+echo "\t $ chmod -R 777 storage/ \n"
+echo "\t $ chmod -R 777 bootstrap/ \n"
