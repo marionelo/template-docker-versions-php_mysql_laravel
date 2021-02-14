@@ -27,7 +27,23 @@ Para poder indicar puertos de nginx, base de datos con su password, existe un .e
 ### Ejecutando el proyecto
 
 ```
-    $ docker-compose up --build -d
+        $ docker-compose up --build -d
+
+    Ejecutar para ver que los 3 servicios esten corriendo
+
+        $ docker ps 
+```
+
+### Correr composer install
+```
+        $ docker exec -ti PROJECT_NAME_composer bash
+
+    Una vez dentro ejecutar los siguientes comandos
+
+        $ composer install && \
+        cp .env.example .env && \
+        chmod -R 777 storage && \
+        chmod -R 777 bootstrap
 ```
 
 ### Revisando el resultado
@@ -37,3 +53,8 @@ Para poder ver el resultado final, hay que verlo en el navegador con el puerto q
 ```
     http://localhost:puerto_para_http
 ```
+
+
+### Migraciones dentro de laravel
+
+Importante para poder correr las migraciones modificar el .env que esta dentro de 
